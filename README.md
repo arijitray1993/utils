@@ -68,6 +68,25 @@ frames = get_video_frames(vidcap, fps=0.2, interval=(start_time_in_ms, end_time_
 Note that the start and end times here are speicifed in milliseconds. Both the fps and interval arguments are optional. If FPS is not specified, it uses the default max fps for the video file. If duration is not speciifed, it extracts frames for the entire video. 
 
 
+### How to download videos from YouTube with subtitles
+```
+from pytube import YouTube
+yt = YouTube(youtube_url)
+yt.streams.first().download(output_path="/path/to/dir", filename="filename.mp4")
+
+check_langs = ['en', 'a.en'] # in order of priority
+for lang in check_langs:
+    caption = yt.captions.get(lang)
+    if caption!=None:
+        caption_convert_to_srt =(caption.generate_srt_captions())
+        if caption_convert_to_srt!="":
+            break
+if caption!=None:
+    caption_convert_to_srt =(caption.generate_srt_captions())
+else:
+    caption_convert_to_srt = ""
+```
+
 
 
 
